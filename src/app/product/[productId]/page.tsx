@@ -1,10 +1,13 @@
+import AddToCartButton from '@/components/AddToCartButton';
 import ImageSlider from '@/components/ImageSlider';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
+import ProductReel from '@/components/ProductReel';
 import { PRODUCT_CATEGORIES } from '@/config';
 import { getPayloadClient } from '@/get-payload';
 import { formatPrice } from '@/lib/utils';
-import { Check } from 'lucide-react';
+import { Check, Shield } from 'lucide-react';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 interface IPageProps {
   params: {
@@ -44,6 +47,8 @@ const Page = async ({ params }: IPageProps) => {
   });
 
   const [product] = products;
+
+  if (!product) return notFound();
 
   const label = PRODUCT_CATEGORIES.find(
     ({ value }) => value === product.category
@@ -125,7 +130,7 @@ const Page = async ({ params }: IPageProps) => {
           </div>
 
           {/* add to cart part */}
-          {/* <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
+          <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
             <div>
               <div className="mt-10">
                 <AddToCartButton product={product} />
@@ -142,16 +147,16 @@ const Page = async ({ params }: IPageProps) => {
                 </div>
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       </div>
 
-      {/* <ProductReel
+      <ProductReel
         href="/products"
         query={{ category: product.category, limit: 4 }}
         title={`Similar ${label}`}
         subtitle={`Browse similar high-quality ${label} just like '${product.name}'`}
-      /> */}
+      />
     </MaxWidthWrapper>
   );
 };
