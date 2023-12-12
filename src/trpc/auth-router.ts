@@ -67,6 +67,7 @@ export const authRouter = router({
       try {
         await payload.login({
           collection: 'users',
+          overrideAccess: true,
           data: {
             email,
             password
